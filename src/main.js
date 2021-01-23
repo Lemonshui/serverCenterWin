@@ -7,9 +7,11 @@ import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 
 import './config/index.css'
+import animated from 'animate.css'
 
 Vue.config.productionTip = false
 Vue.use(ViewUI);
+Vue.use(animated)
 
 /* eslint-disable no-new */
 new Vue({

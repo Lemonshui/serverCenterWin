@@ -8,26 +8,33 @@
                 </ul>
             </div>
             <div style="display: flex;align-items: center;">  
-                <Input v-model="searchName" search enter-button placeholder="服务搜索" @on-change="searchChange" @on-search="searchChange" style="width:300px" />
+                <Input v-model="searchName" @on-focus="focusEvent" search enter-button placeholder="服务搜索" @on-change="searchChange" @on-search="searchChange" style="width:300px" />
             </div>
             <div class="list-icon"><Icon type="md-list-box" @click="expandMemu" /></div>
         </div>
-        <div class="main" v-show="showServerType">
-            <div class="server-type" :class="{'checked' : serverIndex==index}" v-for="(item,index) in serveTypeList" :key="'server'+index" @click="clickSever(item,index)">{{item.title}}</div>
-        </div>
-        <div v-show="!showServerType" class="certificates">
-            <div class="card">
-                <div class="title">
-                    <span class="serverName">{{certificatesList.title}}</span>
-                    <span>  -  所需材料</span>
-                    <span class="back">
-                        <Icon type="md-close" title="返回" @click="showServerType=true"/>
-                    </span>
-                </div>
-                <div class="certificate" v-for="(item,index) in certificatesList.children" :key="'certificates'+index" >{{item}}</div>
-            </div>
-        </div>
 
+        <transition enter-active-class="animate__animated animate__bounceInUp" leave-active-class="animate__animated animate__fadeOutDown"   :duration ="{enter: 400, leave: 400}">
+           
+                <div class="main" v-if="showServerType">
+                    <div class="server-type" :class="{'checked' : serverIndex==index}" v-for="(item,index) in serveTypeList" :key="'server'+index" @click="clickSever(item,index)">{{item.title}}</div>
+                </div>
+        </transition>
+        <transition enter-active-class="animate__animated animate__fadeInRightBig" leave-active-class="animate__animated animate__fadeOutRightBig"   :duration ="{enter: 400, leave: 400}">
+           
+                
+                <div v-if="!showServerType" class="certificates">
+                    <div class="card">
+                        <div class="title">
+                            <span class="serverName">{{certificatesList.title}}</span>
+                            <span>  -  所需材料</span>
+                            <span class="back">
+                                <Icon type="md-close" title="返回" @click="showServerType=true"/>
+                            </span>
+                        </div>
+                        <div class="certificate" v-for="(item,index) in certificatesList.children" :key="'certificates'+index" >{{item}}</div>
+                    </div>
+                </div>
+        </transition>
     </div>
 </template>
 
@@ -426,6 +433,12 @@ export default {
                 memuList.classList.add("expand")
             }
         },
+        focusEvent() {
+            let memuList = document.querySelector(".nav ul");
+            if(memuList.classList.contains("expand")) {
+                memuList.classList.remove("expand")
+            }
+        },
         searchChange() {
             let _self = this;
             _self.tabIndex = -1;
@@ -498,18 +511,34 @@ export default {
                 display: flex;
                 li {
                     padding: 5px 10px;
-                    
+                    position: relative;
                     text-align: center;
-                    border-radius: 5px;
+                    // border-radius: 5px;
                     font-size: 14px;
                     list-style: none;
                     cursor: pointer;
+                    
+                }
+                li::after {
+                    content: "";
+                    position: absolute;
+                    height: 2px;
+                    width: 0;
+                    background: #008cff;
+                    bottom: 0px;
+                    left: 0;
+                    transition: 0.5s;
                 }
                 li.checked {
                     color: #008cff;
+                    border-bottom: 2px solid #008cff;
                 }
                 li:hover {
+                    // border-bottom: 1px solid #008cff;
                     color: #008cff;
+                }
+                li:hover::after {
+                    width: 100%;
                 }
             }
         }
@@ -629,18 +658,22 @@ export default {
                         transition: height 0.5s;
                         li {
                             width: 100%;
-                            height: 35px;
+                            height: 50px;
                             align-self: center;
                             border-radius: 0;
+                            line-height: 50px;
                         }
-                        
+                        li.checked {
+                            border: 0;
+                            background: #cccccc90;
+                        }
                         li:hover {
                             background: #cccccc90;
                             color: #515a6e;
                         }
                     }
                     ul.expand {
-                        height: 210px;
+                        height: 250px;
                     }
                 }
                 .list-icon {
