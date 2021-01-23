@@ -1,11 +1,14 @@
 <template>
     <div class="matter">
         <div class="header">
-            <div></div>
+            
             <div class="nav">
                 <ul>
                     <li :class="{'checked' : tabIndex==index}" v-for="(tab,index) in tabList" :key="index" @click="clickTab(tab,index)">{{tab.title}}</li>
                 </ul>
+            </div>
+            <div style="display: flex;align-items: center;">  
+                <Input v-model="searchName" search enter-button placeholder="服务搜索" @on-change="searchChange" @on-search="searchChange" style="width:300px" />
             </div>
             <div class="list-icon"><Icon type="md-list-box" @click="expandMemu" /></div>
         </div>
@@ -361,6 +364,7 @@ export default {
                     ],
                 },
             ],
+            searchName: "",
             tabIndex: 0,
             serveTypeList: [
                 {
@@ -398,6 +402,42 @@ export default {
     },
     created() {},
     mounted() {},
+    watch: {
+        searchName(val) {
+            if(val == "") {
+                this.tabIndex = 0;
+                this.serveTypeList = [
+                    {
+                                title: "出生户口申报",
+                                children: [
+                                    "1、身份证",
+                                    "2、户口簿",
+                                    "3、病历资料",
+                                    "4、本人近期二寸免冠彩照3张",
+                                ]
+                            },
+                            {
+                                title: "死亡户口注销",
+                                children: [
+                                    "1、火化证",
+                                    "2、村开具死亡证明",
+                                    "3、身份证复印件、户口簿原件",
+                                ]
+                            },
+                            {
+                                title: "户口迁入迁出",
+                                children: [
+                                    "1、本人申请",
+                                    "2、夫妻双方户口簿、身份证",
+                                    "3、村接收证",
+                                    "4、房产证",
+                                    "5、土地证",
+                                ]
+                            },
+                ]
+            }
+        }
+    },
     methods: {
         clickTab(data,index) {
             this.tabIndex = index
@@ -418,6 +458,19 @@ export default {
                 memuList.classList.add("expand")
             }
         },
+        searchChange() {
+            let _self = this;
+            _self.tabIndex = -1;
+            _self.serveTypeList = [];
+            this.tabList.forEach(ele => {
+                ele.children.forEach(item => {
+                    if(item.title.indexOf(_self.searchName) > -1 && _self.searchName!="") {
+                        _self.serveTypeList.push(item)
+                    }
+                })
+            });
+            console.log(_self.serveTypeList)
+        }
     }
 };
 </script>
