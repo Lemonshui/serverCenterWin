@@ -19,7 +19,7 @@
                     <div class="server-type" :class="{'checked' : serverIndex==index}" v-for="(item,index) in serveTypeList" :key="'server'+index" @click="clickSever(item,index)">{{item.title}}</div>
                 </div>
         </transition>
-        <transition enter-active-class="animate__animated animate__fadeInRightBig" leave-active-class="animate__animated animate__fadeOutRightBig"   :duration ="{enter: 400, leave: 400}">
+        <transition enter-active-class="animate__animated animate__fadeInRight" leave-active-class="animate__animated animate__fadeOutRight"   :duration ="{enter: 400, leave: 400}">
            
                 
                 <div v-if="!showServerType" class="certificates">
@@ -640,12 +640,10 @@ export default {
                 height: 50px;
                 z-index: 100;
                 .nav {
-                    // display: none;
                     position: absolute;
                     top: 50px;
                     left: 0;
                     z-index: 10;
-                    // right: calc(5vw + 25px);
                     width: 100%;
                     overflow-y: auto;
                     align-self: center;
@@ -687,24 +685,14 @@ export default {
                 top: 50px;
                 .server-type {
                     width: 100%;
-                    // height: 100px;
-                    // padding: 0 15px;
-                    // border: 1px solid #cccccc80;
-                    // box-shadow: 3px 3px 2px #cccccc70;
-                    // border-radius: 10px;
                     margin-top: 15px;
-                    // display: flex;
-                    // align-items: center;
-                    // justify-content: center;
-                    // cursor: pointer;
-                    // transition: 0.5s;
                 }
-                .server-type:hover {
-                    // transform: scale(1.1);
-                    // background: #008cffa1;
-                    // border: 1px solid #008cff70;
-                    // box-shadow: 3px 3px 2px #008cff;
-                    // color: #fff;
+                .server-type.chenked {
+                    transform: scale(1.1);
+                    background: #008cffa1;
+                    border: 1px solid #008cff70;
+                    box-shadow: 3px 3px 2px #008cff;
+                    color: #fff;
                 }
                 .server-type:not(:nth-child(3n)) {
                     margin-right: 0;
