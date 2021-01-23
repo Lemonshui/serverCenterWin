@@ -403,8 +403,35 @@ export default {
     created() {},
     mounted() {},
     watch: {
-        searchName(val) {
-            if(val == "") {
+        
+    },
+    methods: {
+        clickTab(data,index) {
+            this.tabIndex = index;
+            this.searchName = "";
+            this.expandMemu();
+            this.serveTypeList = data.children;
+            this.showServerType = true;
+        },
+        clickSever(data,index) {
+            this.serverIndex = index
+            this.certificatesList = data;
+            this.showServerType = false;
+        },
+        expandMemu() {
+            let memuList = document.querySelector(".nav ul");
+            if(memuList.classList.contains("expand")) {
+                memuList.classList.remove("expand")
+            } else {
+                memuList.classList.add("expand")
+            }
+        },
+        searchChange() {
+            let _self = this;
+            _self.tabIndex = -1;
+            _self.serveTypeList = [];
+            
+            if(_self.searchName == "") {
                 this.tabIndex = 0;
                 this.serveTypeList = [
                     {
@@ -434,41 +461,16 @@ export default {
                                     "5、土地证",
                                 ]
                             },
-                ]
-            }
-        }
-    },
-    methods: {
-        clickTab(data,index) {
-            this.tabIndex = index
-            this.expandMemu();
-            this.serveTypeList = data.children;
-            this.showServerType = true;
-        },
-        clickSever(data,index) {
-            this.serverIndex = index
-            this.certificatesList = data;
-            this.showServerType = false;
-        },
-        expandMemu() {
-            let memuList = document.querySelector(".nav ul");
-            if(memuList.classList.contains("expand")) {
-                memuList.classList.remove("expand")
+                ];
             } else {
-                memuList.classList.add("expand")
-            }
-        },
-        searchChange() {
-            let _self = this;
-            _self.tabIndex = -1;
-            _self.serveTypeList = [];
-            this.tabList.forEach(ele => {
+                this.tabList.forEach(ele => {
                 ele.children.forEach(item => {
-                    if(item.title.indexOf(_self.searchName) > -1 && _self.searchName!="") {
+                    if(item.title.indexOf(_self.searchName) > -1) {
                         _self.serveTypeList.push(item)
                     }
                 })
             });
+            }
             console.log(_self.serveTypeList)
         }
     }
@@ -590,7 +592,7 @@ export default {
                 }
                 .back {
                     float: right;
-                    margin-right: 15px;
+                    margin-right: 10px;
                     cursor: pointer;
                     i {
                         font-size: 22px;
