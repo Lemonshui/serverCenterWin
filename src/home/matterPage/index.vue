@@ -434,6 +434,7 @@ export default {
         padding: 0 5vw;
         position: fixed;
         box-shadow: 0 0 10px #ccc;
+        background: #fff;
         top: 0;
         .nav {
             display: block;
@@ -489,6 +490,7 @@ export default {
             justify-content: center;
             cursor: pointer;
             transition: 0.5s;
+            background: #fff;
         }
         .server-type:hover {
             transform: scale(1.1);
@@ -521,6 +523,7 @@ export default {
             padding: 0 0 20px 0;
             border: 1px solid #cccccc80;
             border-radius: 10px;
+            background: #fff;
             .title {
                 width: 100%;
                 padding: 10px 0 10px 25px;
